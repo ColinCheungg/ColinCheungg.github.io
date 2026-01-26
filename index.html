@@ -64,6 +64,40 @@
         .social-links { margin-top: 20px; }
         .social-links a { margin-right: 20px; font-weight: 500; font-size: 1.05em; }
 
+        /* Blog按钮样式 - 红色跳动按钮 */
+        .social-links a.blog-btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: #fff !important;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95em;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+            text-decoration: none;
+        }
+
+        .social-links a.blog-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+            text-decoration: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-8px);
+            }
+            60% {
+                transform: translateY(-4px);
+            }
+        }
+
         /* --- 3. Section Common (通用板块) --- */
         section { margin-bottom: 60px; }
         h2 {
@@ -87,6 +121,17 @@
             padding-top: 2px;
         }
 
+        /* 大学名称样式 */
+        .university-name.ucas {
+            color: rgb(33, 73, 143);
+            font-weight: 800;
+        }
+
+        .university-name.szu {
+            color: rgb(137, 27, 65);
+            font-weight: 800;
+        }
+
         /* --- 5. Work Experience Specific (工作经历：Logo样式) --- */
         .logo-column {
             width: 100px; /* Logo 列宽度 */
@@ -108,6 +153,14 @@
             padding: 2px;
         }
 
+        /* 有透明通道的logo需要白色背景 */
+        .logo-column img[src*="insta360"],
+        .logo-column img[src*="byd"],
+        .logo-column img[src*="alibaba"] {
+            background-color: #fff;
+            padding: 4px;
+        }
+
         .logo-column .date-text {
             font-size: 0.8em;
             color: #777;
@@ -120,8 +173,15 @@
             font-weight: 800; /* 特粗 */
             color: #000;
             font-size: 1.1em;
-            display: block;
-            margin-bottom: 5px;
+            display: inline;
+        }
+
+        /* 二级部门不加粗 */
+        .company-dept {
+            font-weight: 400;
+            color: #000;
+            font-size: 1.1em;
+            display: inline;
         }
 
         .job-title {
@@ -188,7 +248,7 @@
         
         <header>
             <div class="profile-photo">
-                <img src="avatar.jpg" alt="Yuhang Zhang">
+                <img src="yuhang.png" alt="Yuhang Zhang">
             </div>
             
             <div class="bio-info">
@@ -205,8 +265,7 @@
                 <div class="social-links">
                     <a href="mailto:your.email@example.com">Email</a>
                     <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-                    <a href="https://scholar.google.com/" target="_blank">Google Scholar</a>
-                    <a href="#" target="_blank">LinkedIn</a>
+                    <a href="https://yourblog.com" target="_blank" class="blog-btn">Blog</a>
                 </div>
             </div>
         </header>
@@ -219,22 +278,22 @@
                     <li class="item">
                         <div class="edu-date-column">2017 - 2020</div>
                         <div class="content-column">
-                            <span class="job-title" style="font-size: 1.1em;">University of Chinese Academy of Sciences (UCAS)</span>
-                            <span class="subtitle" style="display:block; color:#666; margin-bottom:5px;">M.S. in Computer Application Technology</span>
+                            <span class="job-title" style="font-size: 1.1em;">University of Chinese Academy of Sciences (<span class="university-name ucas">UCAS</span>)</span>
+                            <span class="subtitle" style="display:block; color:#666; margin-bottom:5px;">M.S. in Computer Technology</span>
                             <div class="work-desc">
-                                Advisors: Prof. Cheng-Zhong Xu and Prof. Kejiang Ye.<br>
-                                Awards: <strong>National Scholarship</strong>.
+                                Advisors: <a href="https://scholar.google.com/citations?user=XsBBTUgAAAAJ&hl" target="_blank">Prof. Cheng-Zhong Xu</a> and <a href="https://people.ucas.ac.cn/~kejiang?language=en" target="_blank">Prof. Kejiang Ye</a>.<br>
+                                Awards: National Scholarship, Best Paper Award.
                             </div>
                         </div>
                     </li>
                     <li class="item">
                         <div class="edu-date-column">2013 - 2017</div>
                         <div class="content-column">
-                            <span class="job-title" style="font-size: 1.1em;">Tsinghua University (THU)</span>
-                            <span class="subtitle" style="display:block; color:#666; margin-bottom:5px;">B.E. in Electronic Information Engineering</span>
+                            <span class="job-title" style="font-size: 1.1em;">Shenzhen University (<span class="university-name szu">SZU</span>)</span>
+                            <span class="subtitle" style="display:block; color:#666; margin-bottom:5px;">B.E. in Electronic Engineering</span>
                             <div class="work-desc">
-                                Awards: Outstanding Graduate.<br>
-                                <em>Recommended for admission to UCAS (Waived from admission test).</em>
+                                Awards: Outstanding Graduate of Shenzhen University.<br>
+                                <em>Recommended for admission to UCAS.</em>
                             </div>
                         </div>
                     </li>
@@ -247,11 +306,11 @@
                     
                     <li class="item">
                         <div class="logo-column">
-                            <img src="logo-insta360.png" alt="Insta360">
+                            <img src="insta360.png" alt="Insta360">
                             <span class="date-text">2025-<br>Present</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Insta360, Research Center</span>
+                            <span class="company-name">Insta360</span><span class="company-dept">, Research Center</span>
                             <span class="job-title">Researcher (Project Lead)</span>
                             <div class="work-desc">
                                 Leading data synthesis and model simulation projects, focusing on the application of cutting-edge technologies in company products.
@@ -261,11 +320,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="logo-byd.png" alt="BYD">
+                            <img src="BYD_Company,_Ltd._-_Logo.svg.png" alt="BYD">
                             <span class="date-text">Mar. 2024<br>-<br>Mar. 2025</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">BYD, Intelligent Driving Center</span>
+                            <span class="company-name">BYD</span><span class="company-dept">, Intelligent Driving Center</span>
                             <span class="job-title">Senior Algorithm Engineer</span>
                             <div class="work-desc">
                                 Participated in the development of parking technologies for high-end vehicle models, including <strong>Yangwang U8</strong> and <strong>Denza D9</strong>.
@@ -275,11 +334,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="logo-meituan.png" alt="Meituan">
+                            <img src="meituan_logo.png" alt="Meituan">
                             <span class="date-text">Oct. 2022<br>-<br>Mar. 2024</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Meituan, Drone Business Unit</span>
+                            <span class="company-name">Meituan</span><span class="company-dept">, Drone Business Unit</span>
                             <span class="job-title">Algorithm Strategy Engineer</span>
                             <div class="work-desc">
                                 Contributed to the development of Meituan's drone simulation systems.
@@ -289,11 +348,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="logo-alibaba.png" alt="Alibaba">
+                            <img src="alibaba.png" alt="Alibaba">
                             <span class="date-text">Jul. 2020<br>-<br>Oct. 2022</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Alibaba, DAMO Academy</span>
+                            <span class="company-name">Alibaba</span><span class="company-dept">, DAMO Academy</span>
                             <span class="job-title">Algorithm Engineer</span>
                             <div class="work-desc">
                                 Responsible for projects involving face recognition, object tracking, and object detection.
