@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yuhang Zhang - Academic Homepage</title>
+    <!-- 预加载关键图片（头像） -->
+    <link rel="preload" as="image" href="profile_imags/yh.png" fetchpriority="high">
     <style>
         /* --- 1. Global Styles (全局样式) --- */
         :root {
@@ -270,7 +272,12 @@
         
         <header>
             <div class="profile-photo">
-                <img src="profile_imags/yh.png" alt="Yuhang Zhang">
+                <img src="profile_imags/yh.png" 
+                     alt="Yuhang Zhang" 
+                     width="180" 
+                     height="180" 
+                     fetchpriority="high"
+                     loading="eager">
             </div>
             
             <div class="bio-info">
@@ -328,7 +335,11 @@
                     
                     <li class="item">
                         <div class="logo-column">
-                            <img src="profile_imags/insta360.png" alt="Insta360">
+                            <img src="profile_imags/insta360.png" 
+                                 alt="Insta360" 
+                                 width="60" 
+                                 height="60" 
+                                 loading="lazy">
                             <span class="date-text">2025-<br>Present</span>
                         </div>
                         <div class="content-column">
@@ -342,7 +353,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="profile_imags/byd.png" alt="BYD">
+                            <img src="profile_imags/byd.png" 
+                                 alt="BYD" 
+                                 width="60" 
+                                 height="60" 
+                                 loading="lazy">
                             <span class="date-text">Mar. 2024<br>-<br>Mar. 2025</span>
                         </div>
                         <div class="content-column">
@@ -356,7 +371,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="profile_imags/meituan.png" alt="Meituan">
+                            <img src="profile_imags/meituan.png" 
+                                 alt="Meituan" 
+                                 width="60" 
+                                 height="60" 
+                                 loading="lazy">
                             <span class="date-text">Oct. 2022<br>-<br>Mar. 2024</span>
                         </div>
                         <div class="content-column">
@@ -370,7 +389,11 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="profile_imags/alibaba.png" alt="Alibaba">
+                            <img src="profile_imags/alibaba.png" 
+                                 alt="Alibaba" 
+                                 width="60" 
+                                 height="60" 
+                                 loading="lazy">
                             <span class="date-text">Jul. 2020<br>-<br>Oct. 2022</span>
                         </div>
                         <div class="content-column">
