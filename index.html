@@ -241,6 +241,28 @@
             .edu-date-column { margin-bottom: 5px; }
         }
     </style>
+    <script>
+        function showEmail(event) {
+            event.preventDefault();
+            const email = 'colincheungg@gmail.com';
+            
+            // 创建友好的弹窗
+            const message = `Email: ${email}\n\nClick OK to copy to clipboard, or Cancel to just view.`;
+            
+            if (confirm(message)) {
+                // 复制到剪贴板
+                navigator.clipboard.writeText(email).then(function() {
+                    alert('Email address copied to clipboard!');
+                }, function(err) {
+                    // 如果复制失败，显示邮箱
+                    alert('Email: ' + email);
+                });
+            } else {
+                // 只显示邮箱
+                alert('Email: ' + email);
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -248,7 +270,7 @@
         
         <header>
             <div class="profile-photo">
-                <img src="yuhang.png" alt="Yuhang Zhang">
+                <img src="profile_imags/yh.png" alt="Yuhang Zhang">
             </div>
             
             <div class="bio-info">
@@ -263,9 +285,9 @@
                     Previously, I was an Algorithm Engineer at Alibaba DAMO Academy and Meituan. 
                 </p>
                 <div class="social-links">
-                    <a href="mailto:your.email@example.com">Email</a>
+                    <a href="#" id="email-link" onclick="showEmail(event); return false;">Email</a>
                     <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-                    <a href="https://yourblog.com" target="_blank" class="blog-btn">Blog</a>
+                    <a href="blog.html" class="blog-btn">Blog</a>
                 </div>
             </div>
         </header>
@@ -306,12 +328,12 @@
                     
                     <li class="item">
                         <div class="logo-column">
-                            <img src="insta360.png" alt="Insta360">
+                            <img src="profile_imags/insta360.png" alt="Insta360">
                             <span class="date-text">2025-<br>Present</span>
                         </div>
                         <div class="content-column">
                             <span class="company-name">Insta360</span><span class="company-dept">, Research Center</span>
-                            <span class="job-title">Researcher (Project Lead)</span>
+                            <span class="job-title">Researcher</span>
                             <div class="work-desc">
                                 Leading data synthesis and model simulation projects, focusing on the application of cutting-edge technologies in company products.
                             </div>
@@ -320,7 +342,7 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="BYD_Company,_Ltd._-_Logo.svg.png" alt="BYD">
+                            <img src="profile_imags/byd.png" alt="BYD">
                             <span class="date-text">Mar. 2024<br>-<br>Mar. 2025</span>
                         </div>
                         <div class="content-column">
@@ -334,7 +356,7 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="meituan_logo.png" alt="Meituan">
+                            <img src="profile_imags/meituan.png" alt="Meituan">
                             <span class="date-text">Oct. 2022<br>-<br>Mar. 2024</span>
                         </div>
                         <div class="content-column">
@@ -348,7 +370,7 @@
 
                     <li class="item">
                         <div class="logo-column">
-                            <img src="alibaba.png" alt="Alibaba">
+                            <img src="profile_imags/alibaba.png" alt="Alibaba">
                             <span class="date-text">Jul. 2020<br>-<br>Oct. 2022</span>
                         </div>
                         <div class="content-column">
@@ -367,13 +389,13 @@
                 
                 <div class="paper-item">
                     <div class="paper-title">
-                        <a href="#">Insta360: Instant Panoramic 3D Reconstruction in the Wild</a>
+                        <a href="#">Paper (Pending organizational approval for publication)</a>
                     </div>
                     <div class="authors">
                         <strong>Yuhang Zhang</strong> (Project Lead), et al.
                     </div>
                     <div class="venue">
-                        Submitted to SIGGRAPH
+                        Published in [Conference Name]
                     </div>
                     <div class="tag-links">
                         <a href="#">[Project Page]</a>
@@ -383,10 +405,10 @@
 
                 <div class="paper-item">
                     <div class="paper-title">
-                        <a href="#">AirSim360: A Panoramic Simulation Platform within Drone View</a>
+                        <a href="#">Paper (Pending organizational approval for publication)</a>
                     </div>
                     <div class="authors">
-                        <strong>Yuhang Zhang</strong>, et al.
+                        <strong>Yuhang Zhang</strong> (First Author), et al.
                     </div>
                     <div class="venue">
                         Published in [Conference Name]
@@ -402,13 +424,13 @@
                         <a href="#">AOAM: Automatic Optimization of Adjacency Matrix for Graph Convolutional Network</a>
                     </div>
                     <div class="authors">
-                        <strong>Yuhang Zhang</strong>, et al.
+                        <strong>Yuhang Zhang</strong>, Hongshuai Ren, et al.
                     </div>
                     <div class="venue">
-                        ICPR (International Conference on Pattern Recognition)
+                        ICPR (International Conference on Pattern Recognition), 2020
                     </div>
                     <div class="tag-links">
-                        <a href="#">[PDF]</a>
+                        <a href="https://ieeexplore.ieee.org/abstract/document/9412046" target="_blank">[Website]</a>
                     </div>
                 </div>
 
@@ -417,13 +439,13 @@
                         <a href="#">FFD: A Federated Learning Based Method for Credit Card Fraud Detection</a>
                     </div>
                     <div class="authors">
-                        Co-author Name, <strong>Yuhang Zhang</strong>, et al.
+                        Wensi Yang, <strong>Yuhang Zhang</strong>, et al.
                     </div>
                     <div class="venue">
-                        [Journal/Conference Name] (Highly Cited)
+                        [BigData] (Highly Cited), 2019
                     </div>
                     <div class="tag-links">
-                        <a href="#">[PDF]</a>
+                        <a href="https://link.springer.com/chapter/10.1007/978-3-030-23551-2_2" target="_blank">[Website]</a>
                     </div>
                 </div>
 
