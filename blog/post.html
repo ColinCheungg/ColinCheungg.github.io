@@ -194,8 +194,19 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postFile = urlParams.get('post') || 'example-post-1';
 
-        // 加载 Markdown 文件
-        fetch(`posts/${postFile}.md`)
+        // 获取当前页面的目录路径
+        // 例如：/blog/post.html -> /blog/
+        const currentPath = window.location.pathname;
+        const directoryPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+        
+        // 构建 Markdown 文件路径：/blog/posts/example-post-1.md
+        const markdownPath = directoryPath + 'posts/' + postFile + '.md';
+        
+        console.log('Current path:', currentPath);
+        console.log('Directory path:', directoryPath);
+        console.log('Loading markdown from:', markdownPath);
+        
+        fetch(markdownPath)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Article not found');
