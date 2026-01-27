@@ -194,9 +194,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postFile = urlParams.get('post') || 'example-post-1';
 
-        // 使用相对于当前页面的路径加载 md（post.html 在 blog/ 下，posts/ 也在 blog/ 下）
-        // 这样在本地 file 打开、本地服务器、GitHub Pages 下都能正确解析
-        const markdownPath = 'posts/' + postFile + '.md';
+        // 构建正确的路径：post.html 在 blog/ 目录下，posts/ 也在 blog/ 目录下
+        // 使用 URL 对象构建相对于当前页面的路径
+        const markdownPath = new URL('posts/' + postFile + '.md', window.location.href).href;
         
         fetch(markdownPath)
             .then(response => {
