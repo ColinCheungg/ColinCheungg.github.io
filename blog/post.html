@@ -178,7 +178,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <a href="blog.html">← Back to Blog</a>
+            <a href="../blog.html">← Back to Blog</a>
         </div>
 
         <div id="loading" class="loading">Loading article...</div>
@@ -194,17 +194,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postFile = urlParams.get('post') || 'example-post-1';
 
-        // 获取当前页面的目录路径
-        // 例如：/blog/post.html -> /blog/
-        const currentPath = window.location.pathname;
-        const directoryPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
-        
-        // 构建 Markdown 文件路径：/blog/posts/example-post-1.md
-        const markdownPath = directoryPath + 'posts/' + postFile + '.md';
-        
-        console.log('Current path:', currentPath);
-        console.log('Directory path:', directoryPath);
-        console.log('Loading markdown from:', markdownPath);
+        // 使用相对于当前页面的路径加载 md（post.html 在 blog/ 下，posts/ 也在 blog/ 下）
+        // 这样在本地 file 打开、本地服务器、GitHub Pages 下都能正确解析
+        const markdownPath = 'posts/' + postFile + '.md';
         
         fetch(markdownPath)
             .then(response => {
