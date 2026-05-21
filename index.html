@@ -6,243 +6,8 @@
     <title>Yuhang Zhang - Academic Homepage</title>
     <!-- 预加载关键图片（头像） -->
     <link rel="preload" as="image" href="profile_images/yh.png" fetchpriority="high">
-    <style>
-        /* --- 1. Global Styles (全局样式) --- */
-        :root {
-            --primary-color: #333;
-            --link-color: #0066cc; /* 经典的学术蓝 */
-            --bg-color: #ffffff;
-            --secondary-text: #666;
-            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            font-family: var(--font-main);
-            line-height: 1.6;
-            color: var(--primary-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        a { color: var(--link-color); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        /* --- 2. Header (头部：左头像，右简介) --- */
-        header {
-            display: flex;
-            align-items: flex-start;
-            gap: 40px;
-            margin-bottom: 60px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 40px;
-        }
-
-        .profile-photo {
-            flex-shrink: 0;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%; /* 圆形头像 */
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #f0f0f0;
-        }
-
-        .profile-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bio-info { flex-grow: 1; }
-        .bio-info h1 { margin-top: 0; font-size: 2.4em; margin-bottom: 5px; color: #000; }
-        .bio-info p { margin-bottom: 12px; }
-        
-        .social-links { margin-top: 20px; }
-        .social-links a { margin-right: 20px; font-weight: 500; font-size: 1.05em; }
-
-        /* Blog按钮样式 - 红色跳动按钮 */
-        .social-links a.blog-btn {
-            display: inline-block;
-            background-color: #e74c3c;
-            color: #fff !important;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.95em;
-            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
-            transition: all 0.3s ease;
-            animation: bounce 2s infinite;
-            text-decoration: none;
-        }
-
-        .social-links a.blog-btn:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
-            text-decoration: none;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-8px);
-            }
-            60% {
-                transform: translateY(-4px);
-            }
-        }
-
-        /* --- 3. Section Common (通用板块) --- */
-        section { margin-bottom: 60px; }
-        h2 {
-            font-size: 1.7em;
-            border-bottom: 2px solid #f2f2f2;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            color: #111;
-        }
-
-        .item-list { list-style: none; padding: 0; }
-        .item { display: flex; margin-bottom: 30px; }
-        .content-column { flex-grow: 1; }
-
-        /* --- 4. Education Specific (教育板块样式) --- */
-        .edu-date-column {
-            width: 140px;
-            flex-shrink: 0;
-            font-weight: 600;
-            color: #555;
-            padding-top: 2px;
-        }
-
-        /* 大学名称样式 */
-        .university-name.ucas {
-            color: rgb(33, 73, 143);
-            font-weight: 800;
-        }
-
-        .university-name.szu {
-            color: rgb(137, 27, 65);
-            font-weight: 800;
-        }
-
-        /* --- 5. Work Experience Specific (工作经历：Logo样式) --- */
-        .logo-column {
-            width: 100px; /* Logo 列宽度 */
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Logo 左对齐 */
-            margin-right: 20px;
-        }
-
-        .logo-column img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            background-color: #fff;
-            border: 1px solid #eee; /* 给 Logo 加个淡淡的边框 */
-            padding: 2px;
-        }
-
-        /* 有透明通道的logo需要白色背景 */
-        .logo-column img[src*="insta360"],
-        .logo-column img[src*="byd"],
-        .logo-column img[src*="alibaba"] {
-            background-color: #fff;
-            padding: 4px;
-        }
-
-        .logo-column .date-text {
-            font-size: 0.8em;
-            color: #777;
-            font-family: monospace; /* 等宽字体显示时间，更整齐 */
-            line-height: 1.2;
-        }
-
-        /* 公司名称特粗显示 */
-        .company-name {
-            font-weight: 800; /* 特粗 */
-            color: #000;
-            font-size: 1.1em;
-            display: inline;
-        }
-
-        /* 二级部门不加粗 */
-        .company-dept {
-            font-weight: 400;
-            color: #000;
-            font-size: 1.1em;
-            display: inline;
-        }
-
-        .job-title {
-            font-weight: 600;
-            font-size: 1.05em;
-            color: #333;
-            margin-bottom: 2px;
-            display: block;
-        }
-
-        .work-desc {
-            font-size: 0.95em;
-            color: #444;
-            margin-top: 5px;
-            line-height: 1.5;
-        }
-
-        /* --- 6. Publications (论文板块) --- */
-        .paper-item { margin-bottom: 25px; }
-        .paper-title { font-weight: 700; font-size: 1.1em; color: #000; margin-bottom: 4px; }
-        .paper-title a { color: #000; } /* 标题默认黑色，hover变蓝 */
-        .paper-title a:hover { color: var(--link-color); }
-        
-        .authors { color: #444; margin-bottom: 4px; line-height: 1.5; }
-        .venue { font-style: italic; color: var(--secondary-text); margin-bottom: 8px; }
-        
-        .tag-links a {
-            display: inline-block;
-            font-size: 0.75em;
-            border: 1px solid #ccc;
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #555;
-            margin-right: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
-        }
-        .tag-links a:hover {
-            background-color: var(--link-color);
-            color: #fff;
-            border-color: var(--link-color);
-            text-decoration: none;
-        }
-
-        /* --- 7. Responsive (手机端适配) --- */
-        @media (max-width: 650px) {
-            header { flex-direction: column; align-items: center; text-align: center; }
-            .item { flex-direction: column; }
-            .logo-column { 
-                flex-direction: row; 
-                align-items: center; 
-                width: 100%; 
-                margin-bottom: 10px; 
-            }
-            .logo-column img { margin-right: 15px; margin-bottom: 0; }
-            .edu-date-column { margin-bottom: 5px; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/home.css">
     <script>
         function showEmail(event) {
             event.preventDefault();
@@ -269,6 +34,12 @@
 <body>
 
     <div class="container">
+
+        <nav class="site-nav" aria-label="Site">
+            <a href="index.html" aria-current="page">Home</a>
+            <span class="site-nav-sep" aria-hidden="true">·</span>
+            <a href="blog.html">Blog</a>
+        </nav>
         
         <header>
             <div class="profile-photo">
@@ -294,6 +65,7 @@
                 </p>
                 <div class="social-links">
                     <a href="#" id="email-link" onclick="showEmail(event); return false;">Email</a>
+                    <a href="https://github.com/ColinCheungg" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="blog.html" class="blog-btn">Blog</a>
                 </div>
             </div>
@@ -310,7 +82,7 @@
                             <span class="job-title" style="font-size: 1.1em;">University of Chinese Academy of Sciences (<span class="university-name ucas">UCAS</span>)</span>
                             <span class="subtitle" style="display:block; color:#666; margin-bottom:5px;">M.S. in Computer Technology</span>
                             <div class="work-desc">
-                                Advisors: <a href="https://scholar.google.com/citations?user=XsBBTUgAAAAJ&hl" target="_blank">Prof. Cheng-Zhong Xu</a> and <a href="https://people.ucas.ac.cn/~kejiang?language=en" target="_blank">Prof. Kejiang Ye</a>.<br>
+                                Advisors: <a href="https://scholar.google.com/citations?user=XsBBTUgAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Prof. Cheng-Zhong Xu</a> and <a href="https://people.ucas.ac.cn/~kejiang?language=en" target="_blank" rel="noopener noreferrer">Prof. Kejiang Ye</a>.<br>
                                 Awards: National Scholarship, Best Paper Award.
                             </div>
                         </div>
@@ -331,9 +103,9 @@
 
             <section id="work">
                 <h2>Work Experience</h2>
-                <ul class="item-list">
+                <ul class="item-list work-list">
                     
-                    <li class="item">
+                    <li class="item work-item work-item--insta360">
                         <div class="logo-column">
                             <img src="profile_images/insta360.png" 
                                  alt="Insta360" 
@@ -343,15 +115,28 @@
                             <span class="date-text">2025-<br>Present</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Insta360</span><span class="company-dept">, Research Center</span>
+                            <div class="work-heading">
+                                <span class="company-name">Insta360</span><span class="company-dept">, Research Center</span>
+                                <span class="work-mood" title="Current chapter">🚀</span>
+                            </div>
                             <span class="job-title">Researcher</span>
-                            <div class="work-desc">
-                                Simulation Project Lead specializing in embodied intelligence (UAV-focused) simulation architecture, with parallel research in data synthesis and next-generation real2sim scene reconstruction.
+                            <p class="work-vibe work-vibe--fire">
+                                <span class="work-vibe-emoji" aria-hidden="true">⚡</span>
+                                <span>Challenging work with a talented team advancing <strong>embodied intelligence</strong> and <strong>Physical AI</strong>.</span>
+                            </p>
+                            <div class="work-desc work-desc--featured">
+                                <p class="work-focus">Core focus: <strong>embodied simulation</strong> &amp; <strong>Physical AI</strong> — building simulation systems that connect synthetic worlds to real-world embodied agents.</p>
+                                <ul class="work-highlights">
+                                    <li>Lead embodied-intelligence simulation (UAV-first): closed-loop sim architecture, evaluation pipelines, and toolchain integration.</li>
+                                    <li>Real2Sim scene reconstruction and large-scale <strong>data synthesis</strong> for training and benchmarking embodied policies.</li>
+                                    <li>Panoramic aerial simulation platforms (e.g., <a href="https://arxiv.org/abs/2512.02009" target="_blank" rel="noopener noreferrer">AirSim360</a>) for omnidirectional spatial intelligence and drone-view understanding.</li>
+                                    <li>Bridge simulation, perception, and robotics — from UE-based environments and plugins to public datasets and downstream embodied-AI tasks.</li>
+                                </ul>
                             </div>
                         </div>
                     </li>
 
-                    <li class="item">
+                    <li class="item work-item work-item--byd">
                         <div class="logo-column">
                             <img src="profile_images/byd.png" 
                                  alt="BYD" 
@@ -361,15 +146,22 @@
                             <span class="date-text">Mar. 2024<br>-<br>Mar. 2025</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">BYD</span><span class="company-dept">, Intelligent Driving Center</span>
+                            <div class="work-heading">
+                                <span class="company-name">BYD</span><span class="company-dept">, Intelligent Driving Center</span>
+                                <span class="work-mood" title="Routine but good people">😶‍🌫️🤝</span>
+                            </div>
                             <span class="job-title">Senior Algorithm Engineer</span>
-                            <div class="work-desc">
-                                Senior Machine Learning Engineer Developed key autonomous driving technologies, focusing on static object recognition and LiDAR-based detection modules. In charge of the obstacle data annotation team. Contributed to the development of Yangwang U8 and Denza D9.
+                            <p class="work-vibe work-vibe--calm">
+                                <span class="work-vibe-emoji" aria-hidden="true">☕</span>
+                                <span>Routine day-to-day — but genuinely great teammates.</span>
+                            </p>
+                            <div class="work-desc work-desc--compact">
+                                Autonomous-driving perception (static objects, LiDAR detection); led obstacle-data annotation for flagship programs.
                             </div>
                         </div>
                     </li>
 
-                    <li class="item">
+                    <li class="item work-item work-item--meituan">
                         <div class="logo-column">
                             <img src="profile_images/meituan.png" 
                                  alt="Meituan" 
@@ -379,15 +171,17 @@
                             <span class="date-text">Oct. 2022<br>-<br>Mar. 2024</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Meituan</span><span class="company-dept">, Drone Business Unit</span>
+                            <div class="work-heading">
+                                <span class="company-name">Meituan</span><span class="company-dept">, Drone Business Unit</span>
+                            </div>
                             <span class="job-title">Algorithm Strategy Engineer</span>
-                            <div class="work-desc">
-                                Algorithm Strategy Engineer @ Meituan Participated in the design of Meituan’s first drone simulation system and was the initial main developer of the simulation testing infrastructure.
+                            <div class="work-desc work-desc--compact">
+                                Early builder of Meituan’s first drone simulation system and simulation-testing infrastructure.
                             </div>
                         </div>
                     </li>
 
-                    <li class="item">
+                    <li class="item work-item work-item--alibaba">
                         <div class="logo-column">
                             <img src="profile_images/alibaba.png" 
                                  alt="Alibaba" 
@@ -397,10 +191,17 @@
                             <span class="date-text">Jul. 2020<br>-<br>Oct. 2022</span>
                         </div>
                         <div class="content-column">
-                            <span class="company-name">Alibaba</span><span class="company-dept">, DAMO Academy</span>
+                            <div class="work-heading">
+                                <span class="company-name">Alibaba</span><span class="company-dept">, DAMO Academy</span>
+                                <span class="work-mood" title="First industry chapter">✨</span>
+                            </div>
                             <span class="job-title">Algorithm Engineer</span>
-                            <div class="work-desc">
-                                Contributed to the development of projects in face recognition, object tracking, and object detection.
+                            <p class="work-vibe work-vibe--warm">
+                                <span class="work-vibe-emoji" aria-hidden="true">🌱</span>
+                                <span>Learned a lot — a fun, formative <strong>first industry role</strong>.</span>
+                            </p>
+                            <div class="work-desc work-desc--compact">
+                                Computer vision at DAMO: face recognition, tracking, and detection.
                             </div>
                         </div>
                     </li>
@@ -409,62 +210,65 @@
 
             <section id="publications">
                 <h2>Selected Publications</h2>
-                
-                <div class="paper-item">
-                    <div class="paper-title">
-                        <a href="#">Paper (Pending organizational approval for publication)</a>
-                    </div>
-                    <div class="authors">
-                        <strong>Yuhang Zhang</strong> (Project Lead), et al.
-                    </div>
-                    <div class="venue">
-                        Published in [Conference Name]
-                    </div>
-                    <div class="tag-links">
-                        <a href="#">[Project Page]</a>
-                        <a href="#">[PDF]</a>
-                    </div>
-                </div>
 
-                <div class="paper-item">
-                    <div class="paper-title">
-                        <a href="#">Paper (Pending organizational approval for publication)</a>
-                    </div>
-                    <div class="authors">
-                        <strong>Yuhang Zhang</strong> (First Author), et al.
-                    </div>
-                    <div class="venue">
-                        Published in [Conference Name]
-                    </div>
-                    <div class="tag-links">
-                        <a href="#">[PDF]</a>
-                        <a href="#">[Code]</a>
-                    </div>
-                </div>
+                <ol class="pub-list">
+                    <li class="pub-entry">
+                        <p class="pub-title paper-title-pending">
+                            Paper (Pending organizational approval for publication)
+                        </p>
+                        <p class="pub-authors">
+                            <strong>Yuhang Zhang</strong> <span class="pub-role">(Project Lead)</span>, et al.
+                        </p>
+                        <p class="pub-venue">[Conference Name] (forthcoming)</p>
+                        <p class="pub-links">
+                            <span class="tag-pending">[Project Page]</span>
+                            <span class="tag-pending">[PDF]</span>
+                        </p>
+                    </li>
 
-                <div class="paper-item">
-                    <div class="paper-title">
-                        <a href="https://ieeexplore.ieee.org/abstract/document/9412046" target="_blank">AOAM: Automatic Optimization of Adjacency Matrix for Graph Convolutional Network</a>
-                    </div>
-                    <div class="authors">
-                        <strong>Yuhang Zhang</strong>, Hongshuai Ren, et al.
-                    </div>
-                    <div class="venue">
-                        ICPR (International Conference on Pattern Recognition), 2020
-                    </div>
-                </div>
+                    <li class="pub-entry">
+                        <p class="pub-title">
+                            <a href="https://arxiv.org/abs/2512.02009" target="_blank" rel="noopener noreferrer">AirSim360: A Panoramic Simulation Platform within Drone View</a>
+                        </p>
+                        <p class="pub-authors">
+                            Xian Ge, Yuling Pan, <strong>Yuhang Zhang</strong> <span class="pub-role">(Co-first Author, Project Leader)</span>,
+                            Xiang Li, Weijun Zhang, Dizhe Zhang, Zhaoliang Wan, Xin Lin, Xiangkai Zhang, Juntao Liang, Jason Li,
+                            Wenjie Jiang, Bo Du, Ming-Hsuan Yang, Lu Qi
+                        </p>
+                        <p class="pub-venue">In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</em>, 2026</p>
+                        <p class="pub-links">
+                            <a href="https://insta360-research-team.github.io/AirSim360-website/" target="_blank" rel="noopener noreferrer">Project Page</a>
+                            <a href="https://arxiv.org/abs/2512.02009" target="_blank" rel="noopener noreferrer">PDF</a>
+                            <a href="https://github.com/Insta360-Research-Team/AirSim360" target="_blank" rel="noopener noreferrer">Code</a>
+                        </p>
+                    </li>
 
-                <div class="paper-item">
-                    <div class="paper-title">
-                        <a href="https://link.springer.com/chapter/10.1007/978-3-030-23551-2_2" target="_blank">FFD: A Federated Learning Based Method for Credit Card Fraud Detection</a>
-                    </div>
-                    <div class="authors">
-                        Wensi Yang, <strong>Yuhang Zhang</strong>, et al.
-                    </div>
-                    <div class="venue">
-                        [BigData] (Highly Cited), 2019
-                    </div>
-                </div>
+                    <li class="pub-entry">
+                        <p class="pub-title">
+                            <a href="https://ieeexplore.ieee.org/abstract/document/9412046" target="_blank" rel="noopener noreferrer">AOAM: Automatic Optimization of Adjacency Matrix for Graph Convolutional Network</a>
+                        </p>
+                        <p class="pub-authors">
+                            <strong>Yuhang Zhang</strong>, Hongshuai Ren, Jiexia Ye, Xitong Gao, Yang Wang, Kejiang Ye, Cheng-Zhong Xu
+                        </p>
+                        <p class="pub-venue">In <em>Proceedings of the 25th International Conference on Pattern Recognition (ICPR)</em>, 2020</p>
+                        <p class="pub-links">
+                            <a href="https://ieeexplore.ieee.org/abstract/document/9412046" target="_blank" rel="noopener noreferrer">PDF</a>
+                        </p>
+                    </li>
+
+                    <li class="pub-entry">
+                        <p class="pub-title">
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-030-23551-2_2" target="_blank" rel="noopener noreferrer">FFD: A Federated Learning Based Method for Credit Card Fraud Detection</a>
+                        </p>
+                        <p class="pub-authors">
+                            Wensi Yang, <strong>Yuhang Zhang</strong>, Kejiang Ye, Li Li, Cheng-Zhong Xu
+                        </p>
+                        <p class="pub-venue">In <em>Proceedings of the 2019 IEEE International Conference on Big Data (IEEE BigData)</em>, 2019</p>
+                        <p class="pub-links">
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-030-23551-2_2" target="_blank" rel="noopener noreferrer">PDF</a>
+                        </p>
+                    </li>
+                </ol>
 
             </section>
 

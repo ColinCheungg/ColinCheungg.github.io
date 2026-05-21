@@ -1,113 +1,30 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Yuhang Zhang</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #fff;
-            padding: 60px 20px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .header {
-            margin-bottom: 60px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-
-        .header h1 {
-            font-size: 1.8em;
-            font-weight: 400;
-            margin-bottom: 10px;
-            color: #000;
-        }
-
-        .header a {
-            color: #0066cc;
-            text-decoration: none;
-            font-size: 0.95em;
-        }
-
-        .header a:hover {
-            text-decoration: underline;
-        }
-
-        .post-list {
-            list-style: none;
-        }
-
-        .post-item {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .post-item:last-child {
-            border-bottom: none;
-        }
-
-        .post-title {
-            font-size: 1.3em;
-            font-weight: 400;
-            margin-bottom: 8px;
-        }
-
-        .post-title a {
-            color: #000;
-            text-decoration: none;
-        }
-
-        .post-title a:hover {
-            color: #0066cc;
-        }
-
-        .post-date {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 40px 15px;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .post-title {
-                font-size: 1.15em;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/blog.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="container container--narrow">
+        <nav class="site-nav" aria-label="Site">
+            <a href="index.html">Home</a>
+            <span class="site-nav-sep" aria-hidden="true">·</span>
+            <a href="blog.html" aria-current="page">Blog</a>
+        </nav>
+
+        <header class="page-header">
             <h1>Blog</h1>
-            <a href="index.html">← Back to Home</a>
-        </div>
+            <a class="back-link" href="index.html">← Back to Home</a>
+        </header>
 
         <ul class="post-list">
-            <!-- 新文章：在 blog/posts/ 下新建 xxx.md，然后在此处按时间从新到旧添加一项：
+            <!-- New post: create blog/posts/xxx.md, then add an entry here (newest first):
                  <li class="post-item">
-                   <div class="post-title"><a href="blog/post.html?post=xxx">标题</a></div>
-                   <div class="post-date">日期</div>
+                   <div class="post-title"><a href="blog/post.html?post=xxx">Title</a></div>
+                   <div class="post-date">Date</div>
                  </li> -->
             <li class="post-item">
                 <div class="post-title">
