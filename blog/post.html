@@ -31,7 +31,7 @@
     <script>
         const POST_SLUG_RE = /^[a-zA-Z0-9_-]+$/;
         const urlParams = new URLSearchParams(window.location.search);
-        const postFile = urlParams.get('post') || 'example-post-1';
+        const postFile = urlParams.get('post');
 
         // Frontmatter dates may be ISO (2026-10-19) or free text. ISO values are
         // normalised to "October 19, 2026" so the article header matches the
@@ -55,7 +55,11 @@
                 '<a href="../blog.html">← Back to Blog</a>';
         }
 
-        if (!POST_SLUG_RE.test(postFile)) {
+        if (!postFile) {
+            // No ?post= given — send the visitor to the blog index instead of
+            // guessing a slug (the old default pointed at a deleted example).
+            window.location.replace('../blog.html');
+        } else if (!POST_SLUG_RE.test(postFile)) {
             showError('Invalid article identifier.');
         } else if (typeof marked === 'undefined') {
             showError('Failed to load the Markdown renderer. Please check your network connection.');
