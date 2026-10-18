@@ -121,7 +121,30 @@ def read_posts() -> list[dict]:
     return posts
 
 
-def read_plan(published_slugs: set[str]) -> dict | None:
+def read_post_titles() -> dict[str, str]:
+    """Map slug -> title for every post file, published or not.
+
+    Lets the writing plan pick up a renamed title directly from the post's
+    frontmatter instead of keeping a second copy in plan.json.
+    """
+    titles: dict[str, str] = {}
+    if not POSTS_DIR.is_dir():
+        return titles
+
+    for path in sorted(POSTS_DIR.glob("*.md")):
+        name = path.name
+        if name.startswith("_") or name.startswith("."):
+            continue
+        slug = path.stem
+        if not is_safe_slug(slug):
+            continue
+        data, _ = parse_front_matter(path.read_text(encoding="utf-8"))
+        if data.get("title"):
+            titles[slug] = data["title"]
+    return titles
+
+
+def read_plan(published_slugs: set[str], titles: dict[str, str]) -> dict | None:
     if not PLAN_FILE.is_file():
         return None
 
@@ -131,14 +154,18 @@ def read_plan(published_slugs: set[str]) -> dict | None:
         print(f"skip plan.json: {err}", file=sys.stderr)
         return None
 
-    items = [
-        {
-            "slug": item.get("slug", ""),
-            "title": item.get("title") or item.get("slug", ""),
-            "done": item.get("slug", "") in published_slugs,
-        }
-        for item in plan.get("items", [])
-    ]
+    items = []
+    for item in plan.get("items", []):
+        slug = item.get("slug", "")
+        items.append(
+            {
+                "slug": slug,
+                # The post's own frontmatter title wins, so renaming a post in
+                # the CMS updates the plan card automatically.
+                "title": titles.get(slug) or item.get("title") or slug,
+                "done": slug in published_slugs,
+            }
+        )
 
     return {
         "title": plan.get("title", ""),
@@ -151,7 +178,7 @@ def read_plan(published_slugs: set[str]) -> dict | None:
 
 def main() -> int:
     posts = read_posts()
-    plan = read_plan({post["slug"] for post in posts})
+    plan = read_plan({post["slug"] for post in posts}, read_post_titles())
 
     payload = {
         "generatedAt": datetime.now().astimezone().isoformat(timespec="seconds"),
