@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+# One pipeline for everything:
+#   build blog/index.json  ->  assemble a clean site folder  ->  deploy to Pages
+#
+# Because the index is built *inside* this workflow, there is no second commit
+# and no GITHUB_TOKEN re-trigger problem. Whatever is committed to main is what
+# gets deployed, index included.
+#
+# Requires: Settings -> Pages -> Build and deployment -> Source = "GitHub Actions"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build blog index
+        run: python3 scripts/build_index.py
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git' \
+            --exclude '_site' \
+            --exclude '.github' \
+            --exclude 'scripts' \
+            --exclude 'docs' \
+            --exclude '.gitignore' \
+            --exclude '.pages.yml' \
+            --exclude 'README.md' \
+            ./ _site/
+          echo "--- files to publish ---"
+          find _site -type f -not -path '*/profile_images/*' | sort
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

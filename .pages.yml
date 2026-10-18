@@ -29,11 +29,11 @@ content:
         required: true
 
       - name: summary
-        label: Summary (optional, shown under the title in the list)
+        label: Summary
         type: text
 
       - name: draft
-        label: Draft (hidden from the blog list)
+        label: Draft
         type: boolean
         default: false
 

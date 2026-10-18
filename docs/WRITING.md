@@ -29,12 +29,19 @@
 ```
 你在 Pages CMS 保存
         ↓  直接 commit 到 main
-GitHub Actions: blog-index.yml
-        ↓  运行 scripts/build_index.py
-blog/index.json 重新生成（已发布列表 + 计划进度）
-        ↓
-GitHub Pages 部署（1–2 分钟）
+GitHub Actions: deploy-pages.yml
+        ↓  python3 scripts/build_index.py  →  blog/index.json
+        ↓  rsync 组装 _site/（排除 .git / .github / scripts / docs）
+        ↓  actions/deploy-pages
+GitHub Pages（1–2 分钟）
 ```
+
+索引是在**部署流水线内部**重新生成的，不会产生第二个 commit，因此不存在
+「提交了但没重新部署」的问题。
+
+`blog/index.json` 仍保留在仓库里作为**兜底**：万一 Actions 不可用，线上页面
+依然有索引可读。它可能比最新的 `.md` 略旧，这是正常的——每次部署都会在工作区
+重新生成并覆盖它，最终发布出去的永远是最新版本。
 
 关键规则——一篇文章 **同时满足** 下面三点才会出现在博客列表里：
 
@@ -62,17 +69,30 @@ python3 -m http.server 8765
 python3 scripts/build_index.py
 ```
 
-## 四、可选的加分项
+## 四、一次性设置：Pages 必须由 Actions 部署
 
-- **发布前自动排版**：在 VS Code 里对文章运行 `/blog-formatting`，规则定义在 `.github/skills/blog-formatting/SKILL.md`（标题层级、空行、代码块、frontmatter 规范化）。纯在线写作时这一步可跳过。
-- **让 Pages 立刻重新部署**：默认工作流用 `GITHUB_TOKEN` 推送索引，GitHub 不会因此再次触发 Pages 构建。若发现线上索引没更新，在仓库
-  **Settings → Secrets and variables → Actions** 添加 `BLOG_INDEX_TOKEN`（fine-grained PAT，权限 `contents: write`），工作流会自动改用它，之后每次都会正常触发部署。
+整条链路依赖仓库设置正确。**只需设置一次**：
 
-## 五、排查
+1. 打开 `Settings → Pages`
+2. **Build and deployment → Source** 选择 **GitHub Actions**
+   （不要选 "Deploy from a branch"）
+
+设置后，`deploy-pages.yml` 每次 Push 到 `main` 都会自动构建并发布。
+若 Source 仍是 "Deploy from a branch"，工作流会在 `Upload artifact` 步骤失败。
+
+## 五、可选的加分项
+
+- **发布前自动排版**：在 VS Code 里对文章运行 `/blog-formatting`，规则定义在
+  `.github/skills/blog-formatting/SKILL.md`（标题层级、空行、代码块、frontmatter 规范化）。
+  纯在线写作时这一步可跳过。
+
+## 六、排查
 
 | 现象 | 处理 |
 |---|---|
 | 文章保存了但列表没出现 | 检查 `date` 是否填了、正文是否为空、`draft` 是否为 true |
 | 列表出现但点进去 404 | `blog/post.html?post=<slug>` 的 slug 必须与文件名完全一致 |
-| 线上列表没更新 | 等 1–2 分钟；仍未更新则看 Actions 里 `Rebuild blog index` 是否失败 |
+| 本地预览的列表比线上旧 | 手动to GitHub Pages` 是否失败 |
+| Actions 报 `Upload artifact` 失败 | Pages Source 还不是 "GitHub Actions"，见第四节 |
 | 本地打开 `blog.html` 提示加载失败 | 用 `python3 -m http.server` 起本地服务，不要双击文件 |
+| 新克隆仓库后本地预览空白 | `blog/index.json` 是构建产物、不提交，先跑一次 `python3 scripts/build_index.py` |
