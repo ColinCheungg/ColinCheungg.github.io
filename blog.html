@@ -20,25 +20,154 @@
             <a class="back-link" href="index.html">← Back to Home</a>
         </header>
 
-        <ul class="post-list">
-            <!-- New post: create blog/posts/xxx.md, then add an entry here (newest first):
-                 <li class="post-item">
-                   <div class="post-title"><a href="blog/post.html?post=xxx">Title</a></div>
-                   <div class="post-date">Date</div>
-                 </li> -->
-            <li class="post-item">
-                <div class="post-title">
-                    <a href="blog/post.html?post=example-post-1">Example Post 1: Getting Started with Computer Vision</a>
+        <!-- Rendered from blog/index.json (built by scripts/build_index.py).
+             Publishing a post = creating blog/posts/<slug>.md. No HTML editing. -->
+        <section class="plan" id="plan" aria-labelledby="plan-title" hidden>
+            <div class="plan-header">
+                <div class="plan-intro">
+                    <h2 class="plan-title" id="plan-title"></h2>
+                    <p class="plan-desc" id="plan-desc"></p>
                 </div>
-                <div class="post-date">January 15, 2025</div>
-            </li>
-            <li class="post-item">
-                <div class="post-title">
-                    <a href="blog/post.html?post=example-post-2">Example Post 2: Thoughts on Deep Learning</a>
+                <div class="plan-progress">
+                    <span class="plan-count" id="plan-count"></span>
+                    <span class="plan-bar" id="plan-bar" role="img">
+                        <span id="plan-bar-fill" style="width: 0%"></span>
+                    </span>
                 </div>
-                <div class="post-date">December 20, 2024</div>
-            </li>
-        </ul>
+            </div>
+            <ol class="plan-list" id="plan-list"></ol>
+        </section>
+
+        <section class="published" aria-labelledby="published-title">
+            <h2 class="section-title" id="published-title">Published</h2>
+            <ul class="post-list" id="post-list"></ul>
+            <p class="empty-note" id="empty-note" hidden>Nothing published yet — the first finished piece will appear here.</p>
+            <p class="empty-note" id="load-error" hidden>
+                Could not load <code>blog/index.json</code>. If you are previewing locally, serve
+                the folder over HTTP (<code>python3 -m http.server</code>) instead of opening the file directly.
+            </p>
+        </section>
+
+        <noscript>
+            <p class="empty-note">This page uses JavaScript to build the post list.</p>
+        </noscript>
+
+        <script>
+            (function () {
+                const el = (id) => document.getElementById(id);
+
+                function setText(node, text) {
+                    if (node) node.textContent = text;
+                }
+
+                function renderPlan(plan) {
+                    if (!plan || !Array.isArray(plan.items)) return;
+
+                    const pending = plan.items.filter((item) => !item.done);
+                    if (pending.length === 0) return;
+
+                    setText(el('plan-title'), plan.title);
+                    setText(el('plan-desc'), plan.description);
+
+                    const total = plan.total || plan.items.length;
+                    setText(el('plan-count'), plan.done + ' / ' + total);
+                    el('plan-bar-fill').style.width =
+                        (total ? Math.round((plan.done / total) * 100) : 0) + '%';
+                    el('plan-bar').setAttribute(
+                        'aria-label',
+                        plan.done + ' of ' + total + ' posts written'
+                    );
+
+                    const list = el('plan-list');
+                    list.textContent = '';
+
+                    pending.forEach((item) => {
+                        const li = document.createElement('li');
+                        li.className = 'plan-item';
+
+                        const idx = document.createElement('span');
+                        idx.className = 'plan-index';
+                        idx.setAttribute('aria-hidden', 'true');
+                        idx.textContent = String(plan.items.indexOf(item) + 1).padStart(2, '0');
+
+                        const body = document.createElement('div');
+                        body.className = 'plan-body';
+
+                        const title = document.createElement('h3');
+                        title.className = 'plan-item-title';
+                        title.textContent = item.title;
+
+                        const meta = document.createElement('div');
+                        meta.className = 'plan-meta';
+
+                        const tag = document.createElement('span');
+                        tag.className = 'tag-pending';
+                        tag.textContent = 'Coming soon';
+
+                        meta.appendChild(tag);
+                        body.appendChild(title);
+                        body.appendChild(meta);
+                        li.appendChild(idx);
+                        li.appendChild(body);
+                        list.appendChild(li);
+                    });
+
+                    el('plan').hidden = false;
+                }
+
+                function renderPosts(posts) {
+                    const list = el('post-list');
+                    list.textContent = '';
+
+                    if (!posts.length) {
+                        el('empty-note').hidden = false;
+                        return;
+                    }
+
+                    posts.forEach((post) => {
+                        const li = document.createElement('li');
+                        li.className = 'post-item';
+
+                        const title = document.createElement('div');
+                        title.className = 'post-title';
+
+                        const link = document.createElement('a');
+                        link.href = 'blog/post.html?post=' + encodeURIComponent(post.slug);
+                        link.textContent = post.title;
+                        title.appendChild(link);
+
+                        const date = document.createElement('div');
+                        date.className = 'post-date';
+                        date.textContent = post.display || post.date;
+
+                        li.appendChild(title);
+                        li.appendChild(date);
+
+                        if (post.summary) {
+                            const summary = document.createElement('p');
+                            summary.className = 'post-summary';
+                            summary.textContent = post.summary;
+                            li.appendChild(summary);
+                        }
+
+                        list.appendChild(li);
+                    });
+                }
+
+                fetch('blog/index.json', { cache: 'no-cache' })
+                    .then((res) => {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return res.json();
+                    })
+                    .then((data) => {
+                        renderPlan(data.plan);
+                        renderPosts(data.posts || []);
+                    })
+                    .catch(() => {
+                        el('load-error').hidden = false;
+                    });
+            })();
+        </script>
     </div>
 </body>
 </html>

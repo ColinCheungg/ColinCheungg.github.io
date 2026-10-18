@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-10-19T00:40:32+08:00",
+  "plan": {
+    "title": "Five posts, one month",
+    "description": "A deadline I set for myself: five pieces, written in the order below. Each one stops being a placeholder the day it is finished.",
+    "items": [
+      {
+        "slug": "2020-2025-summary",
+        "title": "2020-2025 总结，一个慢热的程序员与时间赛跑",
+        "done": false
+      },
+      {
+        "slug": "dull-and-interesting",
+        "title": "无趣与有趣之间，形势比人强",
+        "done": false
+      },
+      {
+        "slug": "insta360-encounter",
+        "title": "影石，戏剧间的缘分与向新开始",
+        "done": false
+      },
+      {
+        "slug": "me-tech-and-team",
+        "title": "我，技术与团队",
+        "done": false
+      },
+      {
+        "slug": "a-few-notes",
+        "title": "几条笔记",
+        "done": false
+      }
+    ],
+    "done": 0,
+    "total": 5
+  },
+  "posts": []
+}

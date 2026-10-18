@@ -162,6 +162,171 @@
     padding: 40px 0;
 }
 
+/* ---------- Section kicker ---------- */
+
+.section-title {
+    font-size: 0.78em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a9a9a;
+    margin: 0 0 18px;
+}
+
+/* ---------- Writing plan (upcoming posts) ---------- */
+
+.plan {
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 26px 28px 8px;
+    margin-bottom: 56px;
+    background: #fcfcfd;
+}
+
+.plan-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.plan-intro {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.plan-title {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #000;
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.plan-desc {
+    font-size: 0.92em;
+    color: var(--secondary-text);
+    margin: 0;
+    max-width: 44ch;
+}
+
+.plan-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    padding-top: 4px;
+}
+
+.plan-count {
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+    color: var(--secondary-text);
+    white-space: nowrap;
+}
+
+.plan-bar {
+    display: block;
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: #ececec;
+    overflow: hidden;
+}
+
+.plan-bar > span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 2px;
+    background: var(--link-color);
+    transition: width 0.4s ease;
+}
+
+.plan-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.plan-item {
+    display: flex;
+    gap: 16px;
+    padding: 15px 0;
+    border-top: 1px dashed #ececec;
+}
+
+.plan-item:first-child {
+    border-top: none;
+}
+
+.plan-index {
+    flex: 0 0 auto;
+    font-size: 0.8em;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: #c4c4c4;
+    padding-top: 6px;
+}
+
+.plan-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 14px;
+    flex-wrap: wrap;
+}
+
+.plan-item-title {
+    font-size: 1.08em;
+    font-weight: 400;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.plan-meta {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ---------- Published list ---------- */
+
+.post-summary {
+    color: var(--secondary-text);
+    font-size: 0.95em;
+    line-height: 1.7;
+    margin: 8px 0 0;
+}
+
+.empty-note {
+    color: var(--secondary-text);
+    font-size: 0.95em;
+    margin: 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-summary + .empty-note,
+.post-list:not(:empty) + .empty-note {
+    border-top: none;
+}
+
+.post-list:empty {
+    display: none;
+}
+
+[hidden] {
+    display: none !important;
+}
+
 @media (max-width: 600px) {
     .page-header h1 {
         font-size: 1.5em;
@@ -173,5 +338,19 @@
 
     .article-title {
         font-size: 1.6em;
+    }
+
+    .plan {
+        padding: 20px 18px 4px;
+        margin-bottom: 40px;
+    }
+
+    .plan-item-title {
+        font-size: 1em;
+    }
+
+    .plan-progress {
+        width: 100%;
+        padding-top: 0;
     }
 }
