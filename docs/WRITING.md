@@ -2,6 +2,15 @@
 
 这套站点的目标：**任何设备、任何地点，打开浏览器就能写，写完即发布**，不需要本地 git、不需要 VS Code。
 
+## TL;DR — 换一台新电脑的完整流程
+
+1. 浏览器打开 <https://app.pagescms.org/>，GitHub 登录，选 `ColinCheungg.github.io` 仓库
+2. 左侧 **Blog posts** → 点要写的文章的 **Edit**
+3. 写正文 → **Date 填日期**（必填）→ 点 **Save**
+4. 等 1–2 分钟，打开 <https://colincheungg.github.io/blog.html> 确认
+
+没有第 5 步。不用 clone 仓库、不用装任何软件、不用敲 git 命令。
+
 ## 一、写作入口：Pages CMS
 
 1. 手机或电脑浏览器打开 <https://app.pagescms.org/>
@@ -21,6 +30,11 @@
 | Content | 正文，富文本编辑器，底层存 Markdown |
 
 改完点 **Save**，Pages CMS 会直接向仓库 `main` 分支提交一次 commit。
+
+> **新建文章（Add an entry）**：`blog/posts/` 下会生成一个 `.md` 文件。
+> 文件名（slug）决定文章链接：建议用英文小写+连字符（如 `my-first-post`），
+> URL 更短更好读；用中文文件名也能正常工作，只是链接会变成百分号编码。
+> 唯一限制是不能含 `/` 或 `\`。
 
 > 写作计划（那五篇占位）在 **Writing plan** 里改，对应 `blog/plan.json`。
 
