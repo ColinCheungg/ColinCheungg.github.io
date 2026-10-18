@@ -8,28 +8,6 @@
     <link rel="preload" as="image" href="profile_images/yh.png" fetchpriority="high">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/home.css">
-    <script>
-        function showEmail(event) {
-            event.preventDefault();
-            const email = 'colincheungg@gmail.com';
-            
-            // 创建友好的弹窗
-            const message = `Email: ${email}\n\nClick OK to copy to clipboard, or Cancel to just view.`;
-            
-            if (confirm(message)) {
-                // 复制到剪贴板
-                navigator.clipboard.writeText(email).then(function() {
-                    alert('Email address copied to clipboard!');
-                }, function(err) {
-                    // 如果复制失败，显示邮箱
-                    alert('Email: ' + email);
-                });
-            } else {
-                // 只显示邮箱
-                alert('Email: ' + email);
-            }
-        }
-    </script>
 </head>
 <body>
 
@@ -64,8 +42,8 @@
                     My current focus lies in next-gen <strong>Simulation Systems</strong> and <strong>3D Reconstruction</strong>.
                 </p>
                 <div class="social-links">
-                    <a href="#" id="email-link" onclick="showEmail(event); return false;">Email</a>
                     <a href="https://github.com/Z-Insta360" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://scholar.google.com/citations?user=0KSI55UAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer">Scholar</a>
                     <a href="blog.html" class="blog-btn">Blog</a>
                 </div>
             </div>
