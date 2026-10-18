@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T00:54:45+08:00",
+  "generatedAt": "2026-10-19T00:55:43+08:00",
   "plan": {
     "title": "Five posts, one month",
     "description": "A deadline I set for myself: five pieces, written in the order below. Each one stops being a placeholder the day it is finished.",
@@ -27,19 +27,11 @@
       {
         "slug": "a-few-notes",
         "title": "几条笔记",
-        "done": true
+        "done": false
       }
     ],
-    "done": 1,
+    "done": 0,
     "total": 5
   },
-  "posts": [
-    {
-      "slug": "a-few-notes",
-      "title": "几条笔记",
-      "date": "2026-10-19",
-      "display": "October 19, 2026",
-      "summary": ""
-    }
-  ]
+  "posts": []
 }

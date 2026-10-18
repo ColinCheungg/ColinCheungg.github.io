@@ -33,6 +33,20 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postFile = urlParams.get('post') || 'example-post-1';
 
+        // Frontmatter dates may be ISO (2026-10-19) or free text. ISO values are
+        // normalised to "October 19, 2026" so the article header matches the
+        // blog list, which is formatted by scripts/build_index.py.
+        function formatDate(value) {
+            const ts = Date.parse(value);
+            if (Number.isNaN(ts)) return value;
+            return new Date(ts).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC'
+            });
+        }
+
         function showError(message) {
             const loading = document.getElementById('loading');
             loading.className = 'error-message';
@@ -71,7 +85,7 @@
                         const dateMatch = frontMatter.match(/date:\s*(.+)/);
 
                         if (titleMatch) title = titleMatch[1].trim();
-                        if (dateMatch) date = dateMatch[1].trim();
+                        if (dateMatch) date = formatDate(dateMatch[1].trim());
                     } else {
                         const lines = markdown.split('\n');
                         if (lines[0].startsWith('# ')) {
