@@ -23,11 +23,19 @@ POSTS_DIR = ROOT / "blog" / "posts"
 PLAN_FILE = ROOT / "blog" / "plan.json"
 OUT_FILE = ROOT / "blog" / "index.json"
 
-SLUG_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 FRONT_MATTER_RE = re.compile(r"^---\r?\n(.*?)\r?\n---\r?\n?(.*)$", re.S)
 KV_RE = re.compile(r"^([A-Za-z0-9_-]+)\s*:\s*(.*)$")
 COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 TRUTHY_RE = re.compile(r"^(true|yes|1)$", re.I)
+
+
+def is_safe_slug(slug: str) -> bool:
+    """True when the filename can be used in a URL without escaping the folder.
+
+    ASCII slugs are recommended (short, readable URLs) but not required — a
+    Chinese filename works too, it just shows up percent-encoded in the URL.
+    """
+    return bool(slug) and "/" not in slug and "\\" not in slug and slug not in {".", ".."}
 
 
 def parse_front_matter(raw: str) -> tuple[dict[str, str], str]:
@@ -80,8 +88,8 @@ def read_posts() -> list[dict]:
             continue
 
         slug = path.stem
-        if not SLUG_RE.match(slug):
-            print(f"skip {name}: slug must match {SLUG_RE.pattern}", file=sys.stderr)
+        if not is_safe_slug(slug):
+            print(f"skip {name}: filename must not contain / or \\", file=sys.stderr)
             continue
 
         data, body = parse_front_matter(path.read_text(encoding="utf-8"))

@@ -29,9 +29,15 @@
     </div>
 
     <script>
-        const POST_SLUG_RE = /^[a-zA-Z0-9_-]+$/;
         const urlParams = new URLSearchParams(window.location.search);
         const postFile = urlParams.get('post');
+
+        // Any filename inside blog/posts/ is allowed (ASCII slugs recommended,
+        // but a Chinese filename works too). Only path separators are rejected
+        // so the request can never escape the posts folder.
+        function isSafeSlug(value) {
+            return Boolean(value) && !/[/\\]/.test(value) && value !== '.' && value !== '..';
+        }
 
         // Frontmatter dates may be ISO (2026-10-19) or free text. ISO values are
         // normalised to "October 19, 2026" so the article header matches the
@@ -59,7 +65,7 @@
             // No ?post= given — send the visitor to the blog index instead of
             // guessing a slug (the old default pointed at a deleted example).
             window.location.replace('../blog.html');
-        } else if (!POST_SLUG_RE.test(postFile)) {
+        } else if (!isSafeSlug(postFile)) {
             showError('Invalid article identifier.');
         } else if (typeof marked === 'undefined') {
             showError('Failed to load the Markdown renderer. Please check your network connection.');
