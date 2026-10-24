@@ -45,7 +45,7 @@ content:
         type: rich-text
 
   - name: plan
-    label: Writing plan
+    label: Writing plan (private — never shown on the site)
     type: file
     path: blog/plan.json
     fields:

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/blog.css">
 </head>
-<body>
+<body class="page-blog-index">
     <div class="container container--narrow">
         <nav class="site-nav" aria-label="Site">
             <a href="index.html">Home</a>
@@ -15,159 +15,107 @@
             <a href="blog.html" aria-current="page">Blog</a>
         </nav>
 
-        <header class="page-header">
-            <h1>Blog</h1>
-            <a class="back-link" href="index.html">← Back to Home</a>
+        <header class="blog-hero">
+            <p class="blog-kicker">
+                <span class="dot dot--a"></span>
+                <span class="dot dot--b"></span>
+                <span class="dot dot--c"></span>
+                <span>Notes &amp; essays</span>
+            </p>
+            <h1 class="blog-hero-title">Blog</h1>
+            <p class="blog-hero-desc">
+                Things I've been turning over — work, writing, and the bits in between.
+            </p>
         </header>
 
-        <!-- Rendered from blog/index.json (built by scripts/build_index.py).
+        <!-- Built from blog/index.json by scripts/build_index.py.
              Publishing a post = creating blog/posts/<slug>.md. No HTML editing. -->
-        <section class="plan" id="plan" aria-labelledby="plan-title" hidden>
-            <div class="plan-header">
-                <div class="plan-intro">
-                    <h2 class="plan-title" id="plan-title"></h2>
-                    <p class="plan-desc" id="plan-desc"></p>
-                </div>
-                <div class="plan-progress">
-                    <span class="plan-count" id="plan-count"></span>
-                    <span class="plan-bar" id="plan-bar" role="img">
-                        <span id="plan-bar-fill" style="width: 0%"></span>
-                    </span>
-                </div>
-            </div>
-            <ol class="plan-list" id="plan-list"></ol>
-        </section>
+        <ul class="post-list" id="post-list"></ul>
 
-        <section class="published" aria-labelledby="published-title">
-            <h2 class="section-title" id="published-title">Published</h2>
-            <ul class="post-list" id="post-list"></ul>
-            <p class="empty-note" id="empty-note" hidden>Nothing published yet — the first finished piece will appear here.</p>
-            <p class="empty-note" id="load-error" hidden>
-                Could not load <code>blog/index.json</code>. If you are previewing locally, serve
-                the folder over HTTP (<code>python3 -m http.server</code>) instead of opening the file directly.
-            </p>
-        </section>
+        <p class="empty-note" id="empty-note" hidden>
+            The first piece is still being written. Check back soon.
+        </p>
+
+        <p class="empty-note empty-note--error" id="load-error" hidden>
+            Could not load <code>blog/index.json</code>. If you're previewing locally, serve the
+            folder over HTTP (<code>python3 -m http.server</code>) instead of opening the file directly.
+        </p>
 
         <noscript>
             <p class="empty-note">This page uses JavaScript to build the post list.</p>
         </noscript>
+    </div>
 
-        <script>
-            (function () {
-                const el = (id) => document.getElementById(id);
+    <script>
+        (function () {
+            const list = document.getElementById('post-list');
 
-                function setText(node, text) {
-                    if (node) node.textContent = text;
+            function buildCard(post, index) {
+                const item = document.createElement('li');
+                item.className = 'post-card';
+
+                const link = document.createElement('a');
+                link.className = 'post-card-link';
+                link.href = 'blog/post.html?post=' + encodeURIComponent(post.slug);
+
+                const number = document.createElement('span');
+                number.className = 'post-card-index';
+                number.setAttribute('aria-hidden', 'true');
+                number.textContent = String(index + 1).padStart(2, '0');
+
+                const body = document.createElement('span');
+                body.className = 'post-card-body';
+
+                const title = document.createElement('span');
+                title.className = 'post-card-title';
+                title.textContent = post.title;
+                body.appendChild(title);
+
+                const meta = document.createElement('span');
+                meta.className = 'post-card-meta';
+                meta.textContent = post.display || post.date || '';
+                body.appendChild(meta);
+
+                if (post.summary) {
+                    const summary = document.createElement('span');
+                    summary.className = 'post-card-summary';
+                    summary.textContent = post.summary;
+                    body.appendChild(summary);
                 }
 
-                function renderPlan(plan) {
-                    if (!plan || !Array.isArray(plan.items)) return;
+                const arrow = document.createElement('span');
+                arrow.className = 'post-card-arrow';
+                arrow.setAttribute('aria-hidden', 'true');
+                arrow.textContent = '→';
 
-                    const pending = plan.items.filter((item) => !item.done);
-                    if (pending.length === 0) return;
+                link.appendChild(number);
+                link.appendChild(body);
+                link.appendChild(arrow);
+                item.appendChild(link);
+                return item;
+            }
 
-                    setText(el('plan-title'), plan.title);
-                    setText(el('plan-desc'), plan.description);
-
-                    const total = plan.total || plan.items.length;
-                    setText(el('plan-count'), plan.done + ' / ' + total);
-                    el('plan-bar-fill').style.width =
-                        (total ? Math.round((plan.done / total) * 100) : 0) + '%';
-                    el('plan-bar').setAttribute(
-                        'aria-label',
-                        plan.done + ' of ' + total + ' posts written'
-                    );
-
-                    const list = el('plan-list');
-                    list.textContent = '';
-
-                    pending.forEach((item) => {
-                        const li = document.createElement('li');
-                        li.className = 'plan-item';
-
-                        const idx = document.createElement('span');
-                        idx.className = 'plan-index';
-                        idx.setAttribute('aria-hidden', 'true');
-                        idx.textContent = String(plan.items.indexOf(item) + 1).padStart(2, '0');
-
-                        const body = document.createElement('div');
-                        body.className = 'plan-body';
-
-                        const title = document.createElement('h3');
-                        title.className = 'plan-item-title';
-                        title.textContent = item.title;
-
-                        const meta = document.createElement('div');
-                        meta.className = 'plan-meta';
-
-                        const tag = document.createElement('span');
-                        tag.className = 'tag-pending';
-                        tag.textContent = 'Coming soon';
-
-                        meta.appendChild(tag);
-                        body.appendChild(title);
-                        body.appendChild(meta);
-                        li.appendChild(idx);
-                        li.appendChild(body);
-                        list.appendChild(li);
-                    });
-
-                    el('plan').hidden = false;
-                }
-
-                function renderPosts(posts) {
-                    const list = el('post-list');
-                    list.textContent = '';
+            fetch('blog/index.json', { cache: 'no-cache' })
+                .then(function (res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                })
+                .then(function (data) {
+                    const posts = data.posts || [];
 
                     if (!posts.length) {
-                        el('empty-note').hidden = false;
+                        document.getElementById('empty-note').hidden = false;
                         return;
                     }
 
-                    posts.forEach((post) => {
-                        const li = document.createElement('li');
-                        li.className = 'post-item';
-
-                        const title = document.createElement('div');
-                        title.className = 'post-title';
-
-                        const link = document.createElement('a');
-                        link.href = 'blog/post.html?post=' + encodeURIComponent(post.slug);
-                        link.textContent = post.title;
-                        title.appendChild(link);
-
-                        const date = document.createElement('div');
-                        date.className = 'post-date';
-                        date.textContent = post.display || post.date;
-
-                        li.appendChild(title);
-                        li.appendChild(date);
-
-                        if (post.summary) {
-                            const summary = document.createElement('p');
-                            summary.className = 'post-summary';
-                            summary.textContent = post.summary;
-                            li.appendChild(summary);
-                        }
-
-                        list.appendChild(li);
+                    posts.forEach(function (post, index) {
+                        list.appendChild(buildCard(post, index));
                     });
-                }
-
-                fetch('blog/index.json', { cache: 'no-cache' })
-                    .then((res) => {
-                        if (!res.ok) throw new Error('HTTP ' + res.status);
-                        return res.json();
-                    })
-                    .then((data) => {
-                        renderPlan(data.plan);
-                        renderPosts(data.posts || []);
-                    })
-                    .catch(() => {
-                        el('load-error').hidden = false;
-                    });
-            })();
-        </script>
-    </div>
+                })
+                .catch(function () {
+                    document.getElementById('load-error').hidden = false;
+                });
+        })();
+    </script>
 </body>
 </html>

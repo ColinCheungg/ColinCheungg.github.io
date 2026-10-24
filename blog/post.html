@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../css/blog.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body>
+<body class="page-blog-post">
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-fill"></span></div>
+
     <div class="container container--narrow">
         <nav class="site-nav" aria-label="Site">
             <a href="../index.html">Home</a>
@@ -16,16 +18,25 @@
             <a href="../blog.html">Blog</a>
         </nav>
 
-        <header class="page-header">
-            <a class="back-link" href="../blog.html">← Back to Blog</a>
-        </header>
-
         <div id="loading" class="loading">Loading article...</div>
-        <div id="article-container" style="display: none;">
-            <h1 id="article-title" class="article-title"></h1>
-            <div id="article-date" class="article-date"></div>
+
+        <article id="article-container" hidden>
+            <header class="article-head">
+                <a class="back-link" href="../blog.html">← Back to Blog</a>
+                <h1 id="article-title" class="article-title"></h1>
+                <div class="article-meta">
+                    <span id="article-date"></span>
+                    <span class="sep" id="article-sep" hidden></span>
+                    <span id="article-reading" hidden></span>
+                </div>
+            </header>
+
             <div id="article-content" class="article-content"></div>
-        </div>
+
+            <footer class="article-foot">
+                <a class="back-link" href="../blog.html">← Back to Blog</a>
+            </footer>
+        </article>
     </div>
 
     <script>
@@ -53,6 +64,17 @@
             });
         }
 
+        // Rough reading time: CJK characters at ~400/min, latin words at ~200/min.
+        function readingTime(text) {
+            const cjk = (text.match(/[\u3400-\u9fff]/g) || []).length;
+            const words = text
+                .replace(/[\u3400-\u9fff]/g, ' ')
+                .split(/\s+/)
+                .filter(Boolean).length;
+            const minutes = Math.max(1, Math.round(cjk / 400 + words / 200));
+            return minutes + ' min read';
+        }
+
         function showError(message) {
             const loading = document.getElementById('loading');
             loading.className = 'error-message';
@@ -61,9 +83,21 @@
                 '<a href="../blog.html">← Back to Blog</a>';
         }
 
+        function trackReadingProgress() {
+            const fill = document.getElementById('reading-progress-fill');
+            function update() {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+                fill.style.width = Math.min(100, Math.max(0, ratio * 100)) + '%';
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        }
+
         if (!postFile) {
             // No ?post= given — send the visitor to the blog index instead of
-            // guessing a slug (the old default pointed at a deleted example).
+            // guessing a slug.
             window.location.replace('../blog.html');
         } else if (!isSafeSlug(postFile)) {
             showError('Invalid article identifier.');
@@ -104,10 +138,10 @@
                         }
                     }
 
-                    const htmlContent = marked.parse(content);
+                    document.getElementById('loading').hidden = true;
 
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('article-container').style.display = 'block';
+                    const container = document.getElementById('article-container');
+                    container.hidden = false;
 
                     if (title) {
                         document.getElementById('article-title').textContent = title;
@@ -118,7 +152,16 @@
                         document.getElementById('article-date').textContent = date;
                     }
 
-                    document.getElementById('article-content').innerHTML = htmlContent;
+                    const body = document.getElementById('article-content');
+                    body.innerHTML = marked.parse(content);
+
+                    const minutes = readingTime(body.innerText || '');
+                    const reading = document.getElementById('article-reading');
+                    reading.textContent = minutes;
+                    reading.hidden = false;
+                    if (date) document.getElementById('article-sep').hidden = false;
+
+                    trackReadingProgress();
                 })
                 .catch(function (error) {
                     showError('Error loading article. Please check if the file exists.');
